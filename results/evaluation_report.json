@@ -1,0 +1,189 @@
+{
+  "test_samples": 4228,
+  "test_distribution": {
+    "1": 2229,
+    "0": 1999
+  },
+  "model_evaluations": [
+    {
+      "model_name": "Random Forest (Linguistic)",
+      "feature_set": "Linguistic",
+      "accuracy": 0.706717123935667,
+      "precision": 0.6989939637826962,
+      "recall": 0.7792732166890982,
+      "f1": 0.7369537547730165,
+      "roc_auc": 0.7811853436812619,
+      "brier_score": 0.18800884733174544,
+      "confusion_matrix": [
+        [
+          1251,
+          748
+        ],
+        [
+          492,
+          1737
+        ]
+      ],
+      "throughput_claims_per_sec": 135284.48458467293,
+      "latency_ms_per_claim": 0.0073918306527908754,
+      "model_size_mb": 11.147571563720703
+    },
+    {
+      "model_name": "Logistic Regression (Semantic)",
+      "feature_set": "Semantic",
+      "accuracy": 0.6194418164616841,
+      "precision": 0.6263243683781581,
+      "recall": 0.6895468820098699,
+      "f1": 0.6564168268204142,
+      "roc_auc": 0.6693952629073622,
+      "brier_score": 0.22952705551257482,
+      "confusion_matrix": [
+        [
+          1082,
+          917
+        ],
+        [
+          692,
+          1537
+        ]
+      ],
+      "throughput_claims_per_sec": 4305323.612071779,
+      "latency_ms_per_claim": 0.00023227057710507081,
+      "model_size_mb": 0.001316070556640625
+    },
+    {
+      "model_name": "Random Forest (Semantic)",
+      "feature_set": "Semantic",
+      "accuracy": 0.6903973509933775,
+      "precision": 0.6986183074265976,
+      "recall": 0.7258860475549573,
+      "f1": 0.711991199119912,
+      "roc_auc": 0.7765510166478484,
+      "brier_score": 0.19034044355884697,
+      "confusion_matrix": [
+        [
+          1301,
+          698
+        ],
+        [
+          611,
+          1618
+        ]
+      ],
+      "throughput_claims_per_sec": 134955.35110096706,
+      "latency_ms_per_claim": 0.007409858088930823,
+      "model_size_mb": 6.327472686767578
+    },
+    {
+      "model_name": "Random Forest (Hybrid)",
+      "feature_set": "Hybrid",
+      "accuracy": 0.7672658467360454,
+      "precision": 0.7679724494188549,
+      "recall": 0.8003589053387169,
+      "f1": 0.7838312829525483,
+      "roc_auc": 0.8550459617426478,
+      "brier_score": 0.15491273458772747,
+      "confusion_matrix": [
+        [
+          1460,
+          539
+        ],
+        [
+          445,
+          1784
+        ]
+      ],
+      "throughput_claims_per_sec": 90752.16545227305,
+      "latency_ms_per_claim": 0.011019020813623496,
+      "model_size_mb": 21.953083038330078
+    },
+    {
+      "model_name": "XGBoost (Hybrid)",
+      "feature_set": "Hybrid",
+      "accuracy": 0.7622989593188269,
+      "precision": 0.761986301369863,
+      "recall": 0.7985643786451323,
+      "f1": 0.7798466593647316,
+      "roc_auc": 0.8548705712210075,
+      "brier_score": 0.15572139640457755,
+      "confusion_matrix": [
+        [
+          1443,
+          556
+        ],
+        [
+          449,
+          1780
+        ]
+      ],
+      "throughput_claims_per_sec": 980833.3835968623,
+      "latency_ms_per_claim": 0.0010195411542099544,
+      "model_size_mb": 0.36161327362060547
+    }
+  ],
+  "ablation_study": [
+    {
+      "Configuration": "Full Hybrid",
+      "Num Features": 39,
+      "F1": 0.7830890163586148,
+      "Accuracy": 0.7585146641438032,
+      "Precision": 0.7437449556093624,
+      "Recall": 0.8268281740690893,
+      "ROC-AUC": 0.8508828214017282
+    },
+    {
+      "Configuration": "Semantic Only",
+      "Num Features": 4,
+      "F1": 0.7147212543554007,
+      "Accuracy": 0.6901608325449385,
+      "Precision": 0.6944561997460855,
+      "Recall": 0.7362045760430687,
+      "ROC-AUC": 0.7726902931052785
+    },
+    {
+      "Configuration": "Linguistic Only",
+      "Num Features": 35,
+      "F1": 0.7424776924673169,
+      "Accuracy": 0.706480605487228,
+      "Precision": 0.6907335907335908,
+      "Recall": 0.8026020637056976,
+      "ROC-AUC": 0.7798999320207435
+    },
+    {
+      "Configuration": "No Entities",
+      "Num Features": 29,
+      "F1": 0.7848264037719674,
+      "Accuracy": 0.7625354777672658,
+      "Precision": 0.7513336068937218,
+      "Recall": 0.8214445939883356,
+      "ROC-AUC": 0.8532825183340886
+    },
+    {
+      "Configuration": "No Numerical",
+      "Num Features": 33,
+      "F1": 0.7830574070092453,
+      "Accuracy": 0.761352885525071,
+      "Precision": 0.7518579686209744,
+      "Recall": 0.8169582772543742,
+      "ROC-AUC": 0.8516211896886083
+    },
+    {
+      "Configuration": "No POS Ratios",
+      "Num Features": 29,
+      "F1": 0.7748275141124817,
+      "Accuracy": 0.7452696310312205,
+      "Precision": 0.7255285826155051,
+      "Recall": 0.8313144908030506,
+      "ROC-AUC": 0.8398235681322044
+    },
+    {
+      "Configuration": "No Certainty Lex",
+      "Num Features": 35,
+      "F1": 0.7854715378079864,
+      "Accuracy": 0.761116367076632,
+      "Precision": 0.745865268253328,
+      "Recall": 0.8295199641094662,
+      "ROC-AUC": 0.8514093296087255
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and checkpoints
+.cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+env/
+.env
+
+# Large models and data
+models/*.bin
+models/*.pt
+models/*.onnx
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/train/*
+!data/train/.gitkeep
+data/test/*
+!data/test/.gitkeep
+
+# Results / logs
+*.log

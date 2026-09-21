@@ -1,0 +1,26 @@
+# Configuration for Hallucination Detection Pipeline
+
+hardware:
+  device: "auto"  # 'auto', 'cuda', 'cpu'
+  batch_size: 32
+
+models:
+  embedding_model_name: "all-MiniLM-L6-v2"
+  saved_models_dir: "models"
+  best_model_path: "models/hybrid_xgboost.joblib"
+  scaler_path: "models/feature_scaler.joblib"
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  train_split_ratio: 0.70
+  val_split_ratio: 0.15
+  test_split_ratio: 0.15
+  random_seed: 42
+
+detection:
+  hallucination_threshold: 0.50
+  high_risk_threshold: 0.75
+
+linguistic_features:
+  spacy_model: "en_core_web_sm"

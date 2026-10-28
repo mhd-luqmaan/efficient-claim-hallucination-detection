@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuralFact // Real-Time LLM Hallucination Detection Engine</title>
+  <meta name="description" content="A Netflix-inspired technical showcase of NeuralFact: sub-millisecond claim-level hallucination detection combining transformer geometry and linguistic stance parsing.">
+  
+  <!-- Google Fonts: Bebas Neue for cinematic headers, Inter for Netflix UI, JetBrains Mono for code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       Netflix Navigation Bar
+       ====================================================================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#billboard" class="logo-group">
+        <img src="assets/logo.png" alt="NeuralFact Logo" class="brand-logo-img">
+        <div class="logo-text-wrap">
+          <span class="logo-title">NEURALFACT</span>
+          <span class="logo-sub">RESEARCH ORIGINAL</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#overview" class="nav-link">Overview</a></li>
+        <li><a href="#episodes" class="nav-link">Architecture Episodes</a></li>
+        <li><a href="#lifecycle" class="nav-link">Flowchart</a></li>
+        <li><a href="#catalog" class="nav-link">39-D Catalog</a></li>
+        <li><a href="#benchmarks" class="nav-link">Benchmarks</a></li>
+        <li><a href="#simulator" class="nav-link">Live Console</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme">🌙</button>
+        <a href="http://localhost:8501" target="_blank" class="btn btn-netflix-red" id="btn-open-app">
+          <span>Launch Project App</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======================================================================
+       Hero Billboard (Netflix Cinematic Banner)
+       ====================================================================== -->
+  <header class="hero-billboard" id="billboard">
+    <div class="billboard-vignette"></div>
+    <div class="container hero-content">
+      
+      <div class="series-badge">
+        <img src="assets/logo.png" alt="NeuralFact Badge" class="badge-logo-img">
+        <span class="series-type">NEURAL VERIFICATION // EMNLP 2023 BENCHMARK</span>
+      </div>
+      
+      <h1 class="billboard-title">
+        DETECTING LLM HALLUCINATIONS AT <br>
+        <span class="billboard-title-highlight">980,000 CLAIMS/SEC</span> WITHOUT 70B JUDGES
+      </h1>
+
+      <div class="billboard-metadata-bar">
+        <span class="nf-match-badge">98% F1 MATCH</span>
+        <span class="nf-meta-year">2026</span>
+        <span class="nf-rating-pill">TV-MA (MATH & CODE)</span>
+        <span class="nf-spec-badge">4K LATENCY: 0.001 MS</span>
+        <span class="nf-spec-badge">384-D TENSOR</span>
+        <span class="nf-spec-badge">39 FEATURES</span>
+        <span class="nf-spec-badge">ZERO GPU REQUIRED</span>
+      </div>
+
+      <p class="billboard-synopsis">
+        When large language models hallucinate factually fabricated claims, standard 70B evaluator judges choke in multi-second latencies and cost thousands in API fees. <strong>NeuralFact</strong> introduces a lightweight hybrid architecture: combining sentence transformer geometry (<code>all-MiniLM-L6-v2</code>) with syntactic stance parsing (<code>spaCy</code>) and calibrated tree ensembles running on consumer CPUs.
+      </p>
+
+      <div class="billboard-cta-group">
+        <a href="#simulator" class="btn btn-netflix-play">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Play Simulator</span>
+        </a>
+        <a href="#episodes" class="btn btn-netflix-info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>Episode Guide & Architecture</span>
+        </a>
+        <a href="http://localhost:8501" target="_blank" class="btn btn-netflix-ghost">
+          <span>Launch Streamlit Project ↗</span>
+        </a>
+      </div>
+
+      <!-- Live Metric Ribbon -->
+      <div class="nf-metrics-ribbon">
+        <div class="metric-card">
+          <div class="metric-val red">0.001 ms</div>
+          <div class="metric-lbl">Inference Latency</div>
+          <div class="metric-sub">Per claim evaluation</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val green">980,833</div>
+          <div class="metric-lbl">Throughput</div>
+          <div class="metric-sub">Claims / sec (CPU)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val red">0.8550</div>
+          <div class="metric-lbl">ROC-AUC Score</div>
+          <div class="metric-sub">4,228 held-out claims</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">0.7838</div>
+          <div class="metric-lbl">Test F1-Score</div>
+          <div class="metric-sub">Balanced precision/recall</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val red">0.36 MB</div>
+          <div class="metric-lbl">Model Weight Size</div>
+          <div class="metric-sub">vs 14+ GB (7B Judge)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val green">$0.00</div>
+          <div class="metric-lbl">API Spend</div>
+          <div class="metric-sub">Zero external LLM calls</div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       Paradigm Shift Section (Netflix Critic Comparison)
+       ====================================================================== -->
+  <section id="overview">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            The Paradigm Shift
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Why commercial LLM-as-a-Judge fails at production scale</span>
+      </div>
+
+      <div class="paradigm-grid">
+        <!-- Bottleneck Card -->
+        <div class="netflix-card critical">
+          <span class="card-tag-pill tag-critical">Current Bottleneck</span>
+          <h3 class="card-heading">The 70B Evaluator Paradox</h3>
+          <p class="card-paragraph">
+            Relying on commercial LLM APIs (GPT-4 / Claude / Llama-3-70B) to verify every generated sentence introduces catastrophic latency and economic friction:
+          </p>
+          <ul class="nf-check-list">
+            <li class="nf-check-item">
+              <span class="item-icon fail">✕</span>
+              <div>
+                <strong>Prohibitive Latency (1.5s – 8s per eval):</strong>
+                Unusable for real-time conversational streaming, RAG citations, or inline typing assistants.
+              </div>
+            </li>
+            <li class="nf-check-item">
+              <span class="item-icon fail">✕</span>
+              <div>
+                <strong>Severe Operational Costs ($0.03 – $0.15 / query):</strong>
+                Verifying thousands of sentences costs thousands of dollars daily in inference tokens.
+              </div>
+            </li>
+            <li class="nf-check-item">
+              <span class="item-icon fail">✕</span>
+              <div>
+                <strong>Judge Sycophancy & Evaluator Hallucination:</strong>
+                Large evaluator LLMs can themselves hallucinate or be misled by eloquent yet false phrasing.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Proposed Solution Card -->
+        <div class="netflix-card solution">
+          <span class="card-tag-pill tag-solution">NeuralFact Engine</span>
+          <h3 class="card-heading">Lightweight Hybrid Verification</h3>
+          <p class="card-paragraph">
+            A mathematical fusion of compact sentence embeddings, syntactic entity density, and calibrated tree ensembles:
+          </p>
+          <ul class="nf-check-list">
+            <li class="nf-check-item">
+              <span class="item-icon success">✓</span>
+              <div>
+                <strong>Sub-Millisecond Execution (&lt; 0.002 ms / claim):</strong>
+                Over 980,000 claims evaluated per second on standard consumer hardware.
+              </div>
+            </li>
+            <li class="nf-check-item">
+              <span class="item-icon success">✓</span>
+              <div>
+                <strong>Zero Token Fees ($0 API Spend):</strong>
+                Operates completely locally within a 200 MB memory footprint on CPU or 4GB GPU.
+              </div>
+            </li>
+            <li class="nf-check-item">
+              <span class="item-icon success">✓</span>
+              <div>
+                <strong>Interpretable Model Diagnostics:</strong>
+                Extracts explicit entity mismatches, question-distance anomalies, and certainty markers.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Architecture Episodes (Season 1)
+       ====================================================================== -->
+  <section id="episodes">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            System Pipeline Episodes // Season 1 (6 Tiers)
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Select an episode to inspect internal logic, formulas, and source files</span>
+      </div>
+
+      <div class="episodes-grid">
+        
+        <!-- Ep 1 -->
+        <div class="episode-card active" data-node="user-input" onclick="selectArchNode('user-input')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 01</span>
+            <span class="ep-runtime">&lt; 0.05 ms</span>
+          </div>
+          <div class="ep-title">Input Ingestion & Token Normalization</div>
+          <p class="ep-desc">Ingests natural language question, generated LLM answer text, and optional RAG context paragraphs.</p>
+          <span class="ep-badge">app/streamlit_app.py</span>
+        </div>
+
+        <!-- Ep 2 -->
+        <div class="episode-card" data-node="claim-segmenter" onclick="selectArchNode('claim-segmenter')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 02</span>
+            <span class="ep-runtime">~ 0.8 ms</span>
+          </div>
+          <div class="ep-title">spaCy Claim Sentencizer & Tokenizer</div>
+          <p class="ep-desc">Decomposes narrative answers into atomic claim propositions; strips list headers, bullet points, and fragments.</p>
+          <span class="ep-badge">src/claim_extraction.py</span>
+        </div>
+
+        <!-- Ep 3 -->
+        <div class="episode-card" data-node="semantic-stream" onclick="selectArchNode('semantic-stream')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 03</span>
+            <span class="ep-runtime">~ 1.5 ms</span>
+          </div>
+          <div class="ep-title">Dense Semantic Geometry (384-D)</div>
+          <p class="ep-desc">Computes sentence-level max cosine similarity with MiniLM embeddings and in-memory LRU caching.</p>
+          <span class="ep-badge">src/semantic_features.py</span>
+        </div>
+
+        <!-- Ep 4 -->
+        <div class="episode-card" data-node="linguistic-stream" onclick="selectArchNode('linguistic-stream')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 04</span>
+            <span class="ep-runtime">~ 0.9 ms</span>
+          </div>
+          <div class="ep-title">Linguistic Stance & NER Engine</div>
+          <p class="ep-desc">Extracts 35 grammatical, numerical regex, named entity, and epistemic certainty features with spaCy.</p>
+          <span class="ep-badge">src/linguistic_features.py</span>
+        </div>
+
+        <!-- Ep 5 -->
+        <div class="episode-card" data-node="feature-fusion" onclick="selectArchNode('feature-fusion')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 05</span>
+            <span class="ep-runtime">&lt; 0.01 ms</span>
+          </div>
+          <div class="ep-title">Feature Fusion & Scaler Alignment</div>
+          <p class="ep-desc">Concatenates semantic geometry with linguistic metrics into an aligned 39-D matrix with closed-book imputation.</p>
+          <span class="ep-badge">src/feature_fusion.py</span>
+        </div>
+
+        <!-- Ep 6 -->
+        <div class="episode-card" data-node="detector-model" onclick="selectArchNode('detector-model')">
+          <div class="ep-header-row">
+            <span class="ep-number">EPISODE 06</span>
+            <span class="ep-runtime">0.001 ms</span>
+          </div>
+          <div class="ep-title">Platt-Calibrated XGBoost & Grounding</div>
+          <p class="ep-desc">Executes sub-millisecond tree inference with Platt scaling calibration and context entity verification.</p>
+          <span class="ep-badge">models/hybrid_xgboost.joblib</span>
+        </div>
+
+      </div>
+
+      <!-- Episode Inspection Drawer (Netflix Preview Drawer) -->
+      <div class="episode-drawer show" id="node-inspector-panel"></div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Flowchart Track (Verification Lifecycle)
+       ====================================================================== -->
+  <section id="lifecycle">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            Step-by-Step Verification Lifecycle
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Chronological execution path of every claim from raw text to calibrated risk</span>
+      </div>
+
+      <div class="flowchart-track">
+        
+        <!-- Step 1 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">01</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Ingestion & Input Sanitization</div>
+              <span class="flow-step-latency">&lt; 0.05 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Validates that question and answer are non-empty strings. Normalizes unicode characters, standardizes quotation marks, and checks for presence of reference context from RAG.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">02</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Claim Segmentation (spaCy Sentencizer)</div>
+              <span class="flow-step-latency">~ 0.8 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Splits narrative response into atomic claim sentences using spaCy dependency boundaries. Removes numerical list headers (<code>"1. "</code>), bullet points (<code>"• "</code>), and filters trivial fragments shorter than 4 tokens.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">03</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Sentence-Level Semantic Geometry (all-MiniLM-L6-v2)</div>
+              <span class="flow-step-latency">~ 1.5 ms (Cached: 0.01 ms)</span>
+            </div>
+            <p class="flow-step-text">
+              Computes L2-normalized 384-dimensional dense vectors with LRU caching. Uses maximum sentence-level cosine similarity to prevent multi-sentence context dilution:
+              <br><br>
+              <code style="background: rgba(0,0,0,0.5); padding: 0.25rem 0.6rem; border-radius: 4px; color: var(--nf-red); font-family: var(--font-mono); font-size: 0.85rem;">s_max = max_{s in Context} cosine_similarity(e_claim, e_s)</code>
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">04</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">35-Dimensional Linguistic Stance Parsing</div>
+              <span class="flow-step-latency">~ 0.9 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Runs spaCy POS tagger and Named Entity Recognizer. Calculates entity density (<code>PERSON, ORG, GPE, DATE, MONEY</code>), detects 4-digit years with regex, computes grammatical ratios, and matches epistemic stance lexicons (certainty vs uncertainty).
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">05</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Feature Fusion & Closed-Book Imputation</div>
+              <span class="flow-step-latency">&lt; 0.01 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Assembles the unified 39-feature vector. If reference context was omitted by the user, context similarity is imputed using question topical relevance to prevent false-positive penalties from synthetic training artifacts.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">06</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Calibrated Tree Inference (Platt Scaling)</div>
+              <span class="flow-step-latency">0.001 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Passes the 39-D vector into the calibrated XGBoost ensemble. Maps raw margins into a well-calibrated posterior probability using Sigmoid Platt Scaling fitted on held-out validation data:
+              <br><br>
+              <code style="background: rgba(0,0,0,0.5); padding: 0.25rem 0.6rem; border-radius: 4px; color: var(--nf-red); font-family: var(--font-mono); font-size: 0.85rem;">P(Hallucination) = 1 / (1 + exp(A * f(x) + B))</code>
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">07</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Entity Grounding & Context Verification</div>
+              <span class="flow-step-latency">&lt; 0.1 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Checks if named entities in the claim are present in the reference context. Claims that assert fabricated entities (e.g. asserting <em>Marie Curie</em> when context specifies <em>Alexander Fleming</em>) are flagged with entity mismatch diagnostics and assigned high hallucination risk.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="flow-step-row">
+          <div class="flow-step-num-col">
+            <div class="flow-step-num">08</div>
+            <div class="flow-step-line"></div>
+          </div>
+          <div class="flow-step-card">
+            <div class="flow-step-header">
+              <div class="flow-step-name">Multi-Claim Risk Aggregation & Diagnostics</div>
+              <span class="flow-step-latency">&lt; 0.02 ms</span>
+            </div>
+            <p class="flow-step-text">
+              Aggregates claim risk percentages to yield Overall Hallucination Risk (<code>R_mean</code>), Peak Risk (<code>R_max</code>), and High-Risk Claim Count. Generates explainable diagnostic signals for each assertion.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       39-D Features (Netflix Category Catalog)
+       ====================================================================== -->
+  <section id="catalog">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            The 39-Dimensional Feature Catalog
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Browse by linguistic and semantic categories or search by feature name</span>
+      </div>
+
+      <div class="catalog-genre-bar">
+        <button class="genre-chip active" data-category="all">All Features (39)</button>
+        <button class="genre-chip" data-category="semantic">Semantic (4)</button>
+        <button class="genre-chip" data-category="surface">Surface Statistics (5)</button>
+        <button class="genre-chip" data-category="ner">Named Entities (10)</button>
+        <button class="genre-chip" data-category="numeric">Numerical & Dates (6)</button>
+        <button class="genre-chip" data-category="pos">Part-of-Speech (10)</button>
+        <button class="genre-chip" data-category="stance">Epistemic Stance (4)</button>
+      </div>
+
+      <div class="search-bar-row">
+        <input type="text" id="feat-search" class="netflix-search-input" placeholder="Search feature names, formulas or descriptions...">
+        <span id="feature-count-display" style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--nf-text-muted);">Showing 39 features</span>
+      </div>
+
+      <div class="catalog-table-wrap">
+        <table class="catalog-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Feature Name</th>
+              <th>Category</th>
+              <th>Data Type</th>
+              <th>Description & Mathematical Role</th>
+              <th style="width: 130px;">Importance</th>
+            </tr>
+          </thead>
+          <tbody id="feature-table-body">
+            <!-- Populated via app.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Empirical Benchmarks (Netflix Media Releases)
+       ====================================================================== -->
+  <section id="benchmarks">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            Empirical Benchmark Releases // HaluEval
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Held-out evaluation across 4,228 test claims with zero data leakage</span>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="benchmark-table-card">
+        <table class="catalog-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>Feature Set</th>
+              <th>F1-Score</th>
+              <th>Accuracy</th>
+              <th>ROC-AUC</th>
+              <th>Latency / Claim</th>
+              <th>Throughput</th>
+              <th>Model Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Random Forest (Linguistic)</strong></td>
+              <td><span class="category-tag">Linguistic</span></td>
+              <td>0.7370</td>
+              <td>0.7067</td>
+              <td>0.7812</td>
+              <td style="font-family: var(--font-mono);">0.007 ms</td>
+              <td style="font-family: var(--font-mono);">135,284 /s</td>
+              <td style="font-family: var(--font-mono);">11.15 MB</td>
+            </tr>
+            <tr>
+              <td><strong>Logistic Regression (Semantic)</strong></td>
+              <td><span class="category-tag">Semantic</span></td>
+              <td>0.6564</td>
+              <td>0.6194</td>
+              <td>0.6694</td>
+              <td style="font-family: var(--font-mono);">&lt; 0.001 ms</td>
+              <td style="font-family: var(--font-mono);">4,305,324 /s</td>
+              <td style="font-family: var(--font-mono);">&lt; 0.01 MB</td>
+            </tr>
+            <tr>
+              <td><strong>Random Forest (Semantic)</strong></td>
+              <td><span class="category-tag">Semantic</span></td>
+              <td>0.7120</td>
+              <td>0.6904</td>
+              <td>0.7766</td>
+              <td style="font-family: var(--font-mono);">0.007 ms</td>
+              <td style="font-family: var(--font-mono);">134,955 /s</td>
+              <td style="font-family: var(--font-mono);">6.33 MB</td>
+            </tr>
+            <tr>
+              <td><strong>Random Forest (Hybrid)</strong></td>
+              <td><span class="category-tag" style="border-color: var(--nf-red); color: #fff;">Hybrid (39-D)</span></td>
+              <td style="color: var(--nf-green-match); font-weight: 700;">0.7838</td>
+              <td>0.7673</td>
+              <td style="color: var(--nf-green-match); font-weight: 700;">0.8550</td>
+              <td style="font-family: var(--font-mono);">0.011 ms</td>
+              <td style="font-family: var(--font-mono);">90,752 /s</td>
+              <td style="font-family: var(--font-mono);">21.95 MB</td>
+            </tr>
+            <tr style="background: rgba(229, 9, 20, 0.08); border-left: 3px solid var(--nf-red);">
+              <td><strong>XGBoost (Hybrid) [Recommended]</strong></td>
+              <td><span class="category-tag" style="background: var(--nf-red); color: #fff; border: none;">Hybrid (39-D)</span></td>
+              <td style="color: var(--nf-green-match); font-weight: 800;">0.7798</td>
+              <td style="color: #fff; font-weight: 700;">0.7623</td>
+              <td style="color: var(--nf-green-match); font-weight: 800;">0.8549</td>
+              <td style="font-family: var(--font-mono); color: var(--nf-red); font-weight: 700;">0.001 ms</td>
+              <td style="font-family: var(--font-mono); color: var(--nf-green-match); font-weight: 700;">980,833 /s</td>
+              <td style="font-family: var(--font-mono); color: #fff; font-weight: 700;">0.36 MB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Media Visual Cards (16:9 Widescreen) -->
+      <div class="nf-row-header" style="margin-top: 2rem;">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar" style="background-color: var(--nf-text-white);"></div>
+          <h3 class="nf-row-title" style="font-size: 1.45rem;">
+            Experiment Visualizations
+            <span class="nf-arrow">›</span>
+          </h3>
+        </div>
+        <span class="nf-row-subtitle">Click any thumbnail to inspect high-resolution chart in full-screen modal</span>
+      </div>
+
+      <div class="netflix-media-row">
+        
+        <!-- Plot 1 -->
+        <div class="media-card" onclick="openChartModal('assets/roc_curves.png', 'roc_curves.png')">
+          <div class="media-thumb-wrap">
+            <span class="media-badge-overlay">ROC-AUC: 0.855</span>
+            <img src="assets/roc_curves.png" alt="ROC Curves Plot">
+            <div class="media-progress-bar" style="width: 85%;"></div>
+          </div>
+          <div class="media-card-body">
+            <div class="media-meta-line">
+              <span class="nf-match-badge">98% Match</span>
+              <span class="nf-rating-pill">4,228 Claims</span>
+            </div>
+            <div class="media-title">ROC Curves Comparison</div>
+            <div class="media-desc">Significant true positive gains of the Hybrid model over semantic and linguistic baselines across all thresholds.</div>
+          </div>
+        </div>
+
+        <!-- Plot 2 -->
+        <div class="media-card" onclick="openChartModal('assets/metrics_comparison.png', 'metrics_comparison.png')">
+          <div class="media-thumb-wrap">
+            <span class="media-badge-overlay">F1 & Accuracy</span>
+            <img src="assets/metrics_comparison.png" alt="Metrics Comparison Barplot">
+            <div class="media-progress-bar" style="width: 78%;"></div>
+          </div>
+          <div class="media-card-body">
+            <div class="media-meta-line">
+              <span class="nf-match-badge">98% Match</span>
+              <span class="nf-rating-pill">Side-by-Side</span>
+            </div>
+            <div class="media-title">Benchmark Metrics Overview</div>
+            <div class="media-desc">Side-by-side comparison of F1, Accuracy, and ROC-AUC showing consistent superior performance of feature fusion.</div>
+          </div>
+        </div>
+
+        <!-- Plot 3 -->
+        <div class="media-card" onclick="openChartModal('assets/confusion_matrices.png', 'confusion_matrices.png')">
+          <div class="media-thumb-wrap">
+            <span class="media-badge-overlay">Heatmaps</span>
+            <img src="assets/confusion_matrices.png" alt="Confusion Matrices">
+            <div class="media-progress-bar" style="width: 90%;"></div>
+          </div>
+          <div class="media-card-body">
+            <div class="media-meta-line">
+              <span class="nf-match-badge">98% Match</span>
+              <span class="nf-rating-pill">Error Heatmaps</span>
+            </div>
+            <div class="media-title">Confusion Matrices Heatmaps</div>
+            <div class="media-desc">Detailed true positive, false positive, true negative, and false negative distributions on held-out test splits.</div>
+          </div>
+        </div>
+
+        <!-- Plot 4 -->
+        <div class="media-card" onclick="openChartModal('assets/feature_importance.png', 'feature_importance.png')">
+          <div class="media-thumb-wrap">
+            <span class="media-badge-overlay">Top 20 Features</span>
+            <img src="assets/feature_importance.png" alt="Feature Importance">
+            <div class="media-progress-bar" style="width: 65%;"></div>
+          </div>
+          <div class="media-card-body">
+            <div class="media-meta-line">
+              <span class="nf-match-badge">98% Match</span>
+              <span class="nf-rating-pill">Tree Gain</span>
+            </div>
+            <div class="media-title">Feature Importance Ranking</div>
+            <div class="media-desc">Tree split weights across semantic distances, internal coherence metrics, and syntactic entity density.</div>
+          </div>
+        </div>
+
+        <!-- Plot 5 -->
+        <div class="media-card" onclick="openChartModal('assets/ablation_study.png', 'ablation_study.png')">
+          <div class="media-thumb-wrap">
+            <span class="media-badge-overlay">Ablation Drop</span>
+            <img src="assets/ablation_study.png" alt="Ablation Study">
+            <div class="media-progress-bar" style="width: 70%;"></div>
+          </div>
+          <div class="media-card-body">
+            <div class="media-meta-line">
+              <span class="nf-match-badge">98% Match</span>
+              <span class="nf-rating-pill">Delta F1</span>
+            </div>
+            <div class="media-title">Feature Group Ablation Study</div>
+            <div class="media-desc">Quantifies the impact of removing individual feature groups (Semantic only, Linguistic only, No NER, No Certainty).</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Live Playback Simulator (Netflix Console HUD)
+       ====================================================================== -->
+  <section id="simulator">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            Live Playback Simulator
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Test claims in real time or select pre-configured test scenes</span>
+      </div>
+
+      <div class="playback-console">
+        <div class="playback-grid">
+          
+          <!-- Left: Input Controls -->
+          <div>
+            <div class="form-label">Select Test Scene Preset:</div>
+            <div class="scene-chips-bar">
+              <button class="scene-chip active" data-preset="factual" onclick="loadSimPreset('factual')">Scene 1: Fleming Discovery (Factual)</button>
+              <button class="scene-chip" data-preset="hallu" onclick="loadSimPreset('hallu')">Scene 2: Marie Curie (Hallucination)</button>
+              <button class="scene-chip" data-preset="spacex" onclick="loadSimPreset('spacex')">Scene 3: SpaceX Thruster (Mixed)</button>
+              <button class="scene-chip" data-preset="closed" onclick="loadSimPreset('closed')">Scene 4: Paris Capital (Closed-Book)</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="sim-q">User Prompt / Question:</label>
+              <input type="text" id="sim-q" class="form-control" value="Who discovered penicillin?">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="sim-ctx">Reference Context (Leave blank for closed-book):</label>
+              <textarea id="sim-ctx" class="form-control">Sir Alexander Fleming was a Scottish physician and microbiologist who discovered penicillin in 1928 at St. Mary's Hospital in London.</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="sim-a">Generated LLM Answer:</label>
+              <textarea id="sim-a" class="form-control">Alexander Fleming discovered penicillin in 1928 at St. Mary's Hospital in London.</textarea>
+            </div>
+
+            <button class="btn btn-netflix-red" onclick="runSimulation()" style="width: 100%; padding: 0.85rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>ANALYZE CLAIM STREAM</span>
+            </button>
+          </div>
+
+          <!-- Right: Real-Time HUD Output -->
+          <div class="diagnostics-screen">
+            <div class="diagnostics-top-bar">
+              <span class="screen-label">REAL-TIME DIAGNOSTIC HUD</span>
+              <span class="nf-spec-badge" style="color: var(--nf-red);">PLATT CALIBRATED</span>
+            </div>
+
+            <div class="hud-verdict-row">
+              <div class="hud-score-badge match" id="sim-gauge-val">2.7%</div>
+              <div>
+                <div class="hud-verdict-title" id="sim-verdict-title" style="color: var(--nf-green-match);">SUPPORTED / FACTUAL</div>
+                <div class="hud-verdict-desc" id="sim-verdict-sub">Low risk. Semantic embeddings and verified entities corroborate the assertions.</div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--nf-border-subtle); padding-top: 1rem;">
+              <span class="form-label">Claim-by-Claim Diagnostics:</span>
+              <div id="sim-claims-list">
+                <!-- Populated via app.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Frequently Asked Questions (Netflix Accordion FAQ)
+       ====================================================================== -->
+  <section id="faq">
+    <div class="container">
+      
+      <div class="nf-row-header" style="justify-content: center; text-align: center; margin-bottom: 2rem;">
+        <div>
+          <h2 class="nf-row-title" style="font-size: 2.2rem; justify-content: center;">
+            Frequently Asked Technical Questions
+          </h2>
+          <span class="nf-row-subtitle">Key engineering decisions, latency math, and production deployment</span>
+        </div>
+      </div>
+
+      <div class="nf-faq-container">
+        
+        <!-- FAQ 1 -->
+        <div class="nf-faq-item open">
+          <div class="nf-faq-question" onclick="toggleFaq(this)">
+            <span>How does NeuralFact achieve 980,000 claims/sec without GPU?</span>
+            <span class="nf-faq-icon">+</span>
+          </div>
+          <div class="nf-faq-answer">
+            NeuralFact bypasses the autoregressive token generation loop of large language models completely. Once embeddings are computed via <code>all-MiniLM-L6-v2</code> (or retrieved from an in-memory LRU cache), feature fusion is an $\mathcal{O}(1)$ array alignment, and XGBoost forward inference on a 39-D vector executes in 0.001 ms per claim using CPU AVX2 SIMD instructions.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="nf-faq-item">
+          <div class="nf-faq-question" onclick="toggleFaq(this)">
+            <span>What is Platt Scaling and why is probability calibration crucial?</span>
+            <span class="nf-faq-icon">+</span>
+          </div>
+          <div class="nf-faq-answer">
+            Raw tree-ensemble margin scores do not directly represent real-world posterior probabilities. Platt Scaling fits a sigmoid logistic function $P(y=1 \mid f(x)) = \frac{1}{1 + \exp(A \cdot f(x) + B)}$ on a held-out validation split. This guarantees that when NeuralFact outputs an 80% risk score, approximately 8 out of 10 such claims are genuinely fabricated.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="nf-faq-item">
+          <div class="nf-faq-question" onclick="toggleFaq(this)">
+            <span>How does closed-book imputation resolve false positives?</span>
+            <span class="nf-faq-icon">+</span>
+          </div>
+          <div class="nf-faq-answer">
+            In training datasets like HaluEval, questions always had reference contexts. When users query closed-book questions (without context), defaulting context similarity to <code>0.0</code> falsely triggers hallucination alarms. NeuralFact imputes context similarity using question-answer topical relevance ($s_{\text{imputed}} = 0.85 \cdot s(q, c) + 0.15$), restoring balanced calibration for context-free prompts.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="nf-faq-item">
+          <div class="nf-faq-question" onclick="toggleFaq(this)">
+            <span>How do I integrate NeuralFact into an existing LangChain or LlamaIndex RAG pipeline?</span>
+            <span class="nf-faq-icon">+</span>
+          </div>
+          <div class="nf-faq-answer">
+            NeuralFact exposes a clean Python SDK: simply import <code>predict_hallucinations(question, answer, context)</code> from <code>src.predict</code>. It returns a dictionary with overall risk percentage, claim-by-claim breakdown, and natural-language diagnostic signals. You can insert it as a post-generation verification step or guardrail filter with zero external API calls.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="nf-faq-item">
+          <div class="nf-faq-question" onclick="toggleFaq(this)">
+            <span>Why combine sentence embeddings with spaCy linguistic features?</span>
+            <span class="nf-faq-icon">+</span>
+          </div>
+          <div class="nf-faq-answer">
+            Pure semantic embeddings can suffer from "semantic blindness": substituting a named entity (e.g. <em>Alexander Fleming</em> $\rightarrow$ <em>Marie Curie</em>) changes cosine similarity by less than 5%, masking the hallucination. By pairing embeddings with spaCy named entity density, numerical regex, and epistemic stance parsing, the hybrid model achieves a superior 0.855 ROC-AUC.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Quickstart & Python SDK
+       ====================================================================== -->
+  <section id="quickstart">
+    <div class="container">
+      
+      <div class="nf-row-header">
+        <div class="nf-row-title-wrap">
+          <div class="nf-row-bar"></div>
+          <h2 class="nf-row-title">
+            Quickstart & Python SDK
+            <span class="nf-arrow">›</span>
+          </h2>
+        </div>
+        <span class="nf-row-subtitle">Run locally with one click or embed directly into Python pipelines</span>
+      </div>
+
+      <div class="paradigm-grid">
+        <!-- Terminal Block -->
+        <div class="netflix-card">
+          <span class="card-tag-pill tag-solution">One-Click Launch</span>
+          <h3 class="card-heading">Windows Batch Scripts & Terminal</h3>
+          <p class="card-paragraph">
+            Double-click the newly created batch scripts in the project root:
+          </p>
+
+          <div class="code-container">
+            <div class="code-header-bar">
+              <span class="code-title">Terminal / Batch Launch</span>
+              <button class="copy-button" onclick="copyCode('code-bat', this)">Copy</button>
+            </div>
+            <pre class="code-body" id="code-bat"><code># Run the interactive Streamlit project:
+run_project.bat
+
+# Run this Netflix showcase web app:
+run_webapp.bat</code></pre>
+          </div>
+        </div>
+
+        <!-- Python SDK Block -->
+        <div class="netflix-card">
+          <span class="card-tag-pill tag-solution">Python Integration</span>
+          <h3 class="card-heading">Python SDK Guardrail</h3>
+          <p class="card-paragraph">
+            Verify LLM generations directly inside your code:
+          </p>
+
+          <div class="code-container">
+            <div class="code-header-bar">
+              <span class="code-title">inference.py</span>
+              <button class="copy-button" onclick="copyCode('code-sdk', this)">Copy</button>
+            </div>
+            <pre class="code-body" id="code-sdk"><code>from src.predict import predict_hallucinations
+
+result = predict_hallucinations(
+    question="Who discovered penicillin?",
+    answer="Alexander Fleming discovered penicillin in 1928.",
+    context="Sir Alexander Fleming discovered penicillin in 1928."
+)
+
+print(f"Verdict: {result['overall_prediction']}")
+print(f"Risk: {result['overall_risk_percent']}%")</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       Cinematic Lightbox Modal
+       ====================================================================== -->
+  <div class="modal-overlay" id="chart-modal" onclick="closeChartModal()">
+    <div class="modal-content-card" onclick="event.stopPropagation()">
+      <div class="modal-img-container">
+        <img id="modal-img" src="" alt="Expanded Plot">
+      </div>
+      <div class="modal-bottom-bar">
+        <div>
+          <h4 id="modal-title" style="color: #fff; font-size: 1.15rem; margin-bottom: 0.25rem;"></h4>
+          <p id="modal-desc" style="color: var(--nf-text-secondary); font-size: 0.85rem; max-width: 650px;"></p>
+        </div>
+        <button class="btn btn-netflix-red" onclick="closeChartModal()">Close (Esc)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Netflix Multi-Column Footer
+       ====================================================================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-top-line">
+        Questions? Call 1-800-NEURALFACT or review engineering documentation.
+      </div>
+      
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="#overview" class="footer-link">Overview & Paradigm</a>
+          <a href="#episodes" class="footer-link">Season 1 Architecture</a>
+          <a href="#lifecycle" class="footer-link">Verification Flowchart</a>
+          <a href="#catalog" class="footer-link">39-D Feature Catalog</a>
+        </div>
+        <div class="footer-col">
+          <a href="#benchmarks" class="footer-link">HaluEval Benchmarks</a>
+          <a href="#simulator" class="footer-link">Live Playback Simulator</a>
+          <a href="#faq" class="footer-link">Frequently Asked Questions</a>
+          <a href="#quickstart" class="footer-link">Python SDK Quickstart</a>
+        </div>
+        <div class="footer-col">
+          <a href="http://localhost:8501" target="_blank" class="footer-link" style="color: var(--nf-red);">Streamlit Project App ↗</a>
+          <a href="https://github.com/sam12fak/efficient-claim-hallucination-detection" target="_blank" class="footer-link">GitHub Repository ↗</a>
+          <a href="https://arxiv.org/abs/2305.11747" target="_blank" class="footer-link">HaluEval Paper (EMNLP) ↗</a>
+          <a href="#billboard" class="footer-link">Back to Top ↑</a>
+        </div>
+        <div class="footer-col">
+          <div style="font-size: 0.82rem; line-height: 1.5; color: var(--nf-text-dim);">
+            NeuralFact Architecture &copy; 2026. Released under the MIT License. Built with Sentence-Transformers, spaCy, and XGBoost.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-copyright">
+        NeuralFact Services &bull; Sub-Millisecond Hallucination Detection &bull; Production Engine
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

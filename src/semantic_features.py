@@ -104,11 +104,19 @@ def extract_semantic_features_single(
     else:
         c_a_sim = 1.0 if (claim.strip() and claim.strip() == full_answer.strip()) else 0.0
 
-    # Context - Claim (optional context)
+    # Context - Claim (with sentence-level alignment and closed-book imputation)
     if ctx_emb is not None and c_emb is not None:
         ctx_c_sim = compute_cosine_similarity(ctx_emb, c_emb)
+        # Check sentence-level max similarity if context has multiple sentences
+        if "." in context or "\n" in context:
+            ctx_sents = [s.strip() for s in context.replace("\n", ". ").split(".") if len(s.strip()) > 5]
+            if len(ctx_sents) > 1:
+                sent_sims = [compute_cosine_similarity(c_emb, get_cached_embedding(s, model)) for s in ctx_sents]
+                if sent_sims:
+                    ctx_c_sim = max(ctx_c_sim, float(max(sent_sims)))
     else:
-        ctx_c_sim = 0.0
+        # Closed-book fallback: Question relevance acts as the reference
+        ctx_c_sim = q_c_sim if q_c_sim > 0.0 else 0.50
 
     return {
         "question_claim_similarity": q_c_sim,

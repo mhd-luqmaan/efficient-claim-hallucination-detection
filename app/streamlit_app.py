@@ -127,6 +127,17 @@ with st.sidebar:
     high_risk_threshold = st.slider("High Risk Flag Threshold", min_value=0.50, max_value=0.95, value=0.75, step=0.05)
 
     st.divider()
+    st.subheader("🤖 Detector Engine")
+    model_choice = st.selectbox(
+        "Detection Model:",
+        [
+            "🚀 Grounded Calibrated Ensemble (High Accuracy)",
+            "⚡ Hybrid XGBoost (Fast & Robust)",
+            "🌲 Hybrid Random Forest (Baseline)"
+        ]
+    )
+
+    st.divider()
     st.subheader("🧪 Demo Scenarios")
     preset_choice = st.selectbox(
         "Select a preconfigured test scenario:",
@@ -155,7 +166,7 @@ preset_data = {
     "1. Factual Answer (Expected Low Risk)": {
         "question": "Who discovered penicillin?",
         "answer": "Alexander Fleming discovered penicillin in 1928 at St. Mary's Hospital in London.",
-        "context": "Sir Alexander Fleming was a Scottish physician and microbiologist who discovered penicillin in 1928."
+        "context": "Sir Alexander Fleming was a Scottish physician and microbiologist who discovered penicillin in 1928 at St. Mary's Hospital in London."
     },
     "2. Clearly Hallucinated (Expected High Risk)": {
         "question": "Who discovered penicillin?",
@@ -170,7 +181,7 @@ preset_data = {
     "4. Long Historical Narrative": {
         "question": "Tell me about the Apollo 11 moon mission.",
         "answer": "The Apollo 11 mission was launched on July 16, 1969. Neil Armstrong was the mission commander. The lunar module landed on Mars after three days of travel. Armstrong became the first human to step onto the surface.",
-        "context": "Apollo 11 was the American spaceflight that first landed humans on the Moon on July 20, 1969."
+        "context": "Apollo 11 was the American spaceflight that first landed humans on the Moon on July 20, 1969. Neil Armstrong was the mission commander who first stepped on the surface."
     }
 }
 
@@ -222,13 +233,19 @@ if detect_button or (preset_choice != "Custom Input"):
         st.warning("Please provide both a Question and an LLM Answer.")
     else:
         with st.spinner("Analyzing semantic distance, entity alignment, and linguistic stance..."):
+            active_model = None
+            if "XGBoost" in model_choice:
+                active_model = joblib.load("models/hybrid_xgboost.joblib")
+            elif "Random Forest" in model_choice:
+                active_model = joblib.load("models/best_model.joblib")
+
             results = predict_hallucinations(
                 question=question_input,
                 answer=answer_input,
                 context=context_input,
                 threshold=threshold,
                 high_risk_threshold=high_risk_threshold,
-                model=detector_model,
+                model=active_model,
                 nlp=nlp,
                 emb_model=emb_model
             )
@@ -303,6 +320,15 @@ if detect_button or (preset_choice != "Custom Input"):
 
                 c_cols = st.columns([2, 1])
                 with c_cols[0]:
+                    grounding_data = claim.get("grounding", {})
+                    if grounding_data.get("has_context"):
+                        supp_ents = grounding_data.get("supported_entities", [])
+                        unsupp_ents = grounding_data.get("unsupported_entities", [])
+                        if supp_ents:
+                            st.caption(f"✅ **Grounded in Context:** `{'`, `'.join(supp_ents)}`")
+                        if unsupp_ents:
+                            st.caption(f"⚠️ **Ungrounded / Contradictory Entities:** `{'`, `'.join(unsupp_ents)}`")
+
                     st.markdown("**Important Model Signals:**")
                     for sig in claim["model_signals"]:
                         st.markdown(f"• {sig}")
